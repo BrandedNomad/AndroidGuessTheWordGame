@@ -51,6 +51,9 @@ class GameFragment : Fragment() {
                 container,
                 false
         )
+
+
+
         /**
          * Use teh viewModelProvider to create an instance
          * of the viewModel
@@ -58,27 +61,16 @@ class GameFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
         Log.i("GameFragment","Called the ViewModelProvider")
 
+        binding.gameViewModel = viewModel
+        binding.setLifecycleOwner(this)
 
 
-        binding.correctButton.setOnClickListener {
-            viewModel.onCorrect()
-
-
-        }
-
-        binding.skipButton.setOnClickListener {
-            viewModel.onSkip()
-
-
-        }
 
         viewModel.score.observe(viewLifecycleOwner, Observer{ newScore ->
             binding.scoreText.text = newScore.toString()
         })
 
-        viewModel.word.observe(viewLifecycleOwner,Observer{ newWord ->
-            binding.wordText.text = newWord
-        })
+
 
         viewModel.eventGameFinished.observe(viewLifecycleOwner,Observer{ newEvent ->
             if(newEvent){
